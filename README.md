@@ -17,7 +17,7 @@ js/
   fallback.js           → filet de sécurité d'affichage
 assets/
   img/                  → toutes les images (photos équipe, rendus, QR, logos)
-og-image.jpg, sitemap.xml, robots.txt → fichiers pour la mise en ligne (à la racine)
+opengraph-image.jpg, sitemap.xml, robots.txt → fichiers pour la mise en ligne (à la racine)
 ```
 
 ## Modifier le contenu sans toucher au code  →  js/content.js
@@ -47,5 +47,5 @@ Le plus souvent, seul **js/content.js** a besoin d'être modifié.
 ## Mettre en ligne
 
 Copiez tout le contenu de ce dossier à la racine de l'hébergement
-(`index.html` à la racine). Placez aussi `og-image.jpg`, `sitemap.xml`
+(`index.html` à la racine). Placez aussi `opengraph-image.jpg`, `sitemap.xml`
 et `robots.txt` à la racine du domaine.
