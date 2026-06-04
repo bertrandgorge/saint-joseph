@@ -1,51 +1,38 @@
 # Site SJO2 — Église Saint Joseph (Le Rouret)
 
-Site web du projet de construction de l'église Saint Joseph et du centre paroissial.
+Site du projet de centre paroissial et d'église Saint Joseph, porté par la
+Paroisse Saint-Arnoux — Association Diocésaine de Nice (ADN), au Rouret (06).
 Destination : https://saint-joseph.saint-arnoux.fr/
 
-## Structure du projet
-
+## Structure
 ```
-index.html              → la page (structure HTML uniquement)
-css/
-  style.css             → toute la mise en forme (couleurs, polices, mise en page)
+index.html            → la page (HTML seul)
+css/style.css         → toute la mise en forme
 js/
-  content.js            → ⭐ CONTENU ÉDITABLE (montant collecté, bios équipe, lien formulaire)
-  app.js                → navigation, menu, fiches équipe (modale), animations
-  clocher.js            → clocher + mur des bâtisseurs + frise de collecte
-  budget.js             → animation du graphique budget
-  fallback.js           → filet de sécurité d'affichage
-assets/
-  img/                  → toutes les images (photos équipe, rendus, QR, logos)
-opengraph-image.jpg, sitemap.xml, robots.txt → fichiers pour la mise en ligne (à la racine)
+  content.js          → ⭐ CONTENU ÉDITABLE (montant collecté, lien formulaire, fiches équipe)
+  app.js              → navigation, fiches équipe, compteurs, page don (calcul fiscal)
+  clocher.js          → clocher + mur des bâtisseurs (pierres / murs)
+  simulator.js        → simulateur des bâtisseurs (curseur € → pierres/murs + fiscalité)
+  budget.js           → camembert budget (survol = % en relief + animation)
+  jobs.js             → recrutement : fiches de mission (modale)
+  faq.js              → accordéon de la foire aux questions
+  fallback.js         → filet de sécurité d'affichage
+assets/img/           → toutes les images en fichiers (.jpeg/.png)
+og-image.jpg, sitemap.xml, robots.txt → à placer à la RACINE du domaine
 ```
 
 ## Modifier le contenu sans toucher au code  →  js/content.js
-
-Tout ce qui change souvent est regroupé dans **js/content.js** :
-
-- **Montant collecté** : changez `raised: 1400000` (en euros). Le clocher, les cm,
-  les pierres, le %, le mur et le « reste à collecter » se recalculent seuls.
-- **Lien du formulaire de contact** : collez l'URL de votre Google Form dans `contactFormUrl`.
-- **Fiches équipe** (`membres`) : pour chaque personne, `role` (affiché sous le nom)
-  et `bio` (texte de la fiche). Utilisez `\n` pour un saut de ligne.
-
-Après modification, enregistrez le fichier et rechargez la page.
-
-## Changer / ajouter une photo d'équipe
-
-1. Déposez la photo dans `assets/img/` (format carré conseillé, ~460×460 px, .jpg).
-2. Dans `index.html`, retrouvez la personne (cherchez son nom) et adaptez le `src`.
-3. La clé `data-key` du portrait doit correspondre à la clé dans `js/content.js`.
-
-## Travailler à plusieurs
-
-Les fichiers sont en texte simple : ils s'éditent dans n'importe quel éditeur
-(VS Code recommandé) et se versionnent très bien avec Git/GitHub.
-Le plus souvent, seul **js/content.js** a besoin d'être modifié.
+- Montant collecté : `raised: 1400000` (en euros). Tout se recalcule
+  (clocher, pierres, murs, %, mur des bâtisseurs). Objectif : 6 000 000 € = 600 000 pierres ; 1 mur = 100 pierres.
+- Lien du formulaire de contact : collez l'URL de votre Google Form dans `contactFormUrl`.
+- Fiches équipe (`membres`) : `role` et `bio` par personne. `\n` = saut de ligne.
+  La clé doit rester identique au `data-key` du portrait dans index.html.
 
 ## Mettre en ligne
-
 Copiez tout le contenu de ce dossier à la racine de l'hébergement
-(`index.html` à la racine). Placez aussi `opengraph-image.jpg`, `sitemap.xml`
-et `robots.txt` à la racine du domaine.
+(`index.html` à la racine), ainsi que og-image.jpg, sitemap.xml et robots.txt.
+
+## Important
+Cette version « éclatée » doit être servie par un serveur web (ou en ligne) :
+les chemins css/, js/, assets/ ne fonctionnent pas en double-cliquant le fichier.
+Pour un aperçu local rapide, utilisez plutôt le fichier unique sjo2-site-complet.html.

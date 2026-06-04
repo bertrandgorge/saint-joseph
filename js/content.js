@@ -1,25 +1,11 @@
 /* ============================================================
    SJO2 — CONTENU ÉDITABLE DU SITE
-   Ce fichier centralise ce qui change souvent. Modifiez ici,
-   pas dans les autres .js. Rechargez la page pour voir l'effet.
+   Modifiez ici (pas dans les autres .js), puis rechargez la page.
    ============================================================ */
 window.SJO2 = {
-
-  /* --- COLLECTE : montant total déjà collecté, en euros ---
-     Mettez à jour ce chiffre chaque semaine. Tout le reste
-     (clocher, cm, pierres, %, mur, reste à collecter) se
-     recalcule automatiquement. Objectif fixé à 6 000 000 €. */
   raised: 1400000,
   objectif: 6000000,
-
-  /* --- BOUTON « Restons en contact » ---
-     Collez ici le lien de votre Google Form (entre les guillemets). */
   contactFormUrl: "",
-
-  /* --- FICHES ÉQUIPE ---
-     Pour chaque personne : "role" (sous le nom) et "bio".
-     La clé (à gauche) doit rester identique à celle de la photo
-     dans index.html (attribut data-key). \n = saut de ligne. */
   membres: {
     "Xavier_Manuel":{role:"Pilotage central · Coordinateur général",
       bio:"Coordinateur général et facilitateur du projet. Il anime le comité projet (CoProj), assure l'interface avec le diocèse et la représentation multi-conseils, gère les outils et moyens et tient à jour les tableaux de bord et grilles de décision."},
@@ -60,5 +46,4 @@ window.SJO2 = {
     "Gwendoline_Jayne_Tuzzeo":{role:"Photographe",
       bio:"Photographe, elle accompagne le projet en images et contribue à sa communication visuelle."}
   }
-
 };

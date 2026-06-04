@@ -13,7 +13,7 @@
   function render(animate){
     const pct=Math.min(raised/TOTAL,1);
     const remain=TOTAL-raised;
-    const cm=raised/3000, pierres=raised/10;
+    const pierres=Math.round(raised/10), murs=Math.floor(pierres/100);
     const y=GY-pct*SPAN;
 
     // clocher fill (rises)
@@ -21,7 +21,7 @@
     riseRect.setAttribute('height',(GY+8)-y);
     riseLine.setAttribute('y',y-1.5);
     curLine.setAttribute('y1',y); curLine.setAttribute('y2',y);
-    curCm.setAttribute('y',y-7); curCm.textContent=fr(cm)+' cm';
+    curCm.setAttribute('y',y-7); curCm.textContent=fr(pierres)+' pierres';
 
     // bar
     $('barFill').style.width=(pct*100)+'%';
@@ -38,20 +38,19 @@
 
     // counters
     if(animate){
-      countUp($('raisedTxt'),0,raised,v=>fmtM(v)+' <small>M€</small>');
+      countUp($('raisedTxt'),0,pierres,v=>fr(v)+' <small>pierres</small>');
       countUp($('pctTxt'),0,pct*100,v=>Math.round(v)+' %');
-      countUp($('cmDone'),0,cm,v=>fr(v));
-      countUp($('cmBar'),0,cm,v=>fr(v));
       countUp($('pierres'),0,pierres,v=>fr(v));
+      countUp($('pierresBar'),0,pierres,v=>fr(v));
       countUp($('wallPierres'),0,pierres,v=>fr(v));
-      countUp($('kRemain'),0,remain,v=>fmtM(v)+' <small>M€</small>');
+      countUp($('mursDone'),0,murs,v=>fr(v));
     }else{
-      $('raisedTxt').innerHTML=fmtM(raised)+' <small>M€</small>';
+      $('raisedTxt').innerHTML=fr(pierres)+' <small>pierres</small>';
       $('pctTxt').textContent=Math.round(pct*100)+' %';
-      $('cmDone').textContent=fr(cm); $('cmBar').textContent=fr(cm);
       $('pierres').textContent=fr(pierres);
+      var pb=$('pierresBar'); if(pb) pb.textContent=fr(pierres);
       var wpz=$('wallPierres'); if(wpz) wpz.textContent=fr(pierres);
-      $('kRemain').innerHTML=fmtM(remain)+' <small>M€</small>';
+      var md=$('mursDone'); if(md) md.textContent=fr(murs);
     }
   }
 

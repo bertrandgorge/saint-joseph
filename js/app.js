@@ -82,25 +82,43 @@
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   window.__revealReady=true;
 
+  function fillCount(el, instant){
+    if(el.dataset.done) return; el.dataset.done='1';
+    const target=parseFloat(el.dataset.count)||0, dec=parseInt(el.dataset.dec||0);
+    const unit=el.dataset.unit?' <small>'+el.dataset.unit+'</small>':'';
+    const fmt=c=>(dec?c.toFixed(dec).replace('.',','):Math.round(c).toLocaleString('fr-FR'))+unit;
+    if(instant){ el.innerHTML=fmt(target); return; }
+    let c=0;const step=target/55;
+    const run=()=>{c+=step;if(c>=target)c=target;el.innerHTML=fmt(c);if(c<target)requestAnimationFrame(run);};
+    run();
+  }
   const cio=new IntersectionObserver((es)=>es.forEach(e=>{
     if(!e.isIntersecting)return;
-    const el=e.target, target=parseFloat(el.dataset.count), dec=parseInt(el.dataset.dec||0);
-    const unit=el.dataset.unit?' <small>'+el.dataset.unit+'</small>':'';
-    let c=0;const step=target/55;
-    const run=()=>{c+=step;if(c>=target)c=target;
-      let v=dec?c.toFixed(dec).replace('.',','):Math.round(c).toLocaleString('fr-FR');
-      el.innerHTML=v+unit;
-      if(c<target)requestAnimationFrame(run);};
-    run();cio.unobserve(el);
-  }),{threshold:.5});
+    fillCount(e.target,false); cio.unobserve(e.target);
+  }),{threshold:.35});
   document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+  // Filet de sécurité : si l'observateur ne s'est pas déclenché (certains
+  // navigateurs mobiles / ouverture locale), on force l'affichage des valeurs.
+  setTimeout(()=>{document.querySelectorAll('[data-count]').forEach(el=>{if(!el.dataset.done) fillCount(el,true);});},1800);
 
   const tiers=document.querySelectorAll('.tier'),freeAmt=document.getElementById('freeAmt'),ha=document.getElementById('helloasso'),freqBtns=document.querySelectorAll('.freq button');
-  let amount=150,freq='ponctuel';
-  function upd(){}
+  let amount=150,freq='ponctuel',dwho='part';
+  function frEur(n){return Math.round(n).toLocaleString('fr-FR')+' €';}
+  function upd(){
+    var amt=parseInt(amount,10)||0;
+    var dfA=document.getElementById('dfAmt'),dfR=document.getElementById('dfReal'),dfN=document.getElementById('dfNote');
+    if(dfA){var rate=(dwho==='part')?0.66:0.60;
+      dfA.textContent=frEur(amt);
+      dfR.textContent=frEur(amt*(1-rate));
+      dfN.textContent=(dwho==='part')?"après 66 % de réduction d'impôt — un reçu fiscal vous sera adressé":"après 60 % de réduction d'impôt — un reçu fiscal vous sera adressé";
+    }
+  }
   tiers.forEach(t=>t.addEventListener('click',()=>{tiers.forEach(x=>x.classList.remove('active'));t.classList.add('active');amount=t.dataset.amt;freeAmt.value='';upd();}));
   freeAmt.addEventListener('input',()=>{if(freeAmt.value){tiers.forEach(x=>x.classList.remove('active'));amount=freeAmt.value;upd();}});
   freqBtns.forEach(b=>b.addEventListener('click',()=>{freqBtns.forEach(x=>x.classList.remove('active'));b.classList.add('active');freq=b.dataset.freq;upd();}));
+  document.querySelectorAll('.don-fiscal .sim-toggle button').forEach(function(btn){btn.addEventListener('click',function(){
+    document.querySelectorAll('.don-fiscal .sim-toggle button').forEach(x=>x.classList.remove('on'));btn.classList.add('on');dwho=btn.getAttribute('data-who');upd();});});
+  upd();
 
   // Bouton "Restons en contact" : remplacez l'URL ci-dessous par le lien de votre Google Form.
   // Tant qu'aucun lien n'est renseigné, le bouton mène à la rubrique "Faire un don".
